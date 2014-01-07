@@ -3,7 +3,7 @@
 Plugin Name: qTranslate support for WooCommerce
 Plugin URI: https://github.com/mweimerskirch/wordpress-qtranslate-support-for-woocommerce
 Description: Makes qTranslate work with WooCommerce
-Version: 1.0.1
+Version: 1.0.2
 Author: Michel Weimerskirch
 Author URI: http://michel.weimerskirch.net
 License: MIT
@@ -63,4 +63,34 @@ function qwc_get_the_terms ($terms) {
 		}
 	}
 	return $terms;
+}
+
+/* Fix the product attributes displayed in the cart */
+add_filter('get_term', 'qwc_get_term');
+function qwc_get_term ($term) {
+        if(substr($term->taxonomy, 0, 3) == 'pa_') {
+                $term->name = qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage($term->name);
+        }
+        return $term;
+}
+
+/* Fix the product categories displayed in the breadcrumbs */
+add_filter('wp_get_object_terms', 'qwc_wp_get_object_terms');
+function qwc_wp_get_object_terms($terms) {
+        foreach($terms as $term) {
+                if($term->taxonomy == 'product_cat') {
+                        $term->name = qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage($term->name);
+                }
+        }
+        return $terms;
+}
+
+/* Fix the product attributes displayed in the "additional informations" tab */
+add_filter('woocommerce_attribute', 'qwc_woocommerce_attribute');
+function qwc_woocommerce_attribute($text) {
+        $values = explode(', ', $text);
+        foreach($values as $i=>$val) {
+                $values[$i] = qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage($val);
+        }
+        return implode(', ', $values);
 }
