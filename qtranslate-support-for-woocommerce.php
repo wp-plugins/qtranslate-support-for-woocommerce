@@ -3,7 +3,7 @@
 Plugin Name: qTranslate support for WooCommerce
 Plugin URI: https://github.com/mweimerskirch/wordpress-qtranslate-support-for-woocommerce
 Description: Makes qTranslate work with WooCommerce
-Version: 1.0.6
+Version: 1.0.7
 Author: Michel Weimerskirch
 Author URI: http://michel.weimerskirch.net
 License: MIT
@@ -39,6 +39,7 @@ add_filter('the_title_attribute', 'qtrans_useCurrentLanguageIfNotFoundUseDefault
 add_filter('woocommerce_attribute_label', 'qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage', 0);
 add_filter('woocommerce_variation_option_name', 'qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage', 0);
 add_filter('woocommerce_page_title', 'qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage', 0);
+add_filter('woocommerce_cart_shipping_method_full_label', 'qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage', 0);
 
 
 /* Replace the "sanitize_title" filter from qTranslate with a custom implementation that prevents accents to be replaced language-specifically as this leads to problems with product attributes in WooCommerce. */
